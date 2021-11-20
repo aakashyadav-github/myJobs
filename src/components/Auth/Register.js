@@ -29,7 +29,6 @@ const Register = (props) => {
                 }
             )
                 .catch(err => {
-                    console.log(err);
                     setError('Please enter valid details');
                 })
         }

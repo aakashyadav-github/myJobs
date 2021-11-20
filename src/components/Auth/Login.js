@@ -19,7 +19,6 @@ const Login = (props) => {
                 setIsLoggedIn(true)
             })
             .catch(err => {
-                console.log(err);
                 setError('Incorrect Email or Password')
             })
     }

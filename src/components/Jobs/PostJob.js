@@ -29,7 +29,6 @@ export default class PostJob extends Component {
                 this.props.history.push('/dashboard');
             })
             .catch(err => {
-                console.log(err);
                 this.setState({ message: err.response.data.errors.location });
             })
     }

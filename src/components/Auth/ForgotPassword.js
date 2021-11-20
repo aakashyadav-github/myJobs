@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Link, Redirect } from 'react-router-dom';
 
+// Component to use the Forgot Password fucntionality
 export default class ForgotPassword extends Component {
     constructor(props) {
         super(props);
@@ -15,9 +16,9 @@ export default class ForgotPassword extends Component {
         axios.get("https://jobs-api.squareboat.info/api/v1/auth/resetpassword?email=" + this.state.email).then(
             res => {
                 if (res.status === 201) {
+                    // checking the VerifyPasswordToken API
                     axios.get("https://jobs-api.squareboat.info/api/v1/auth/resetpassword/" + res.data.data.token).then(
                         resp => {
-                            console.log(resp);
                             this.setState({ isSuccess: true })
                             this.props.history.push(`/reset?token=${res.data.data.token}`);
                         })

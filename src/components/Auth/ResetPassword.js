@@ -16,7 +16,6 @@ export default class ResetPassword extends Component {
         let data = { "password": this.state.newPassword, "confirmPassword": this.state.confirmPassword, "token": token };
         axios.post("https://jobs-api.squareboat.info/api/v1/auth/resetpassword", data).then(
             res => {
-                console.log(res);
                 if (res.status === 200) {
                     this.props.history.push('/login');
                 }
