@@ -1,0 +1,53 @@
+import React, { Component } from 'react'
+import axios from 'axios'
+import { Link, Redirect } from 'react-router-dom';
+
+export default class ForgotPassword extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: "",
+            errMessage: "",
+            isSuccess: false,
+        };
+    }
+    forgotPasswordHandle() {
+        axios.get("https://jobs-api.squareboat.info/api/v1/auth/resetpassword?email=" + this.state.email).then(
+            res => {
+                if (res.status === 201) {
+                    axios.get("https://jobs-api.squareboat.info/api/v1/auth/resetpassword/" + res.data.data.token).then(
+                        resp => {
+                            console.log(resp);
+                            this.setState({ isSuccess: true })
+                            this.props.history.push(`/reset?token=${res.data.data.token}`);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+            })
+            .catch(err => {
+                this.setState({ errMessage: "Please enter a valid Email" })
+            })
+    }
+    render() {
+        return (
+            <div className="reactangle-login">
+                <div className="auth-wrapper ">
+                    <div className="auth-inner forgot">
+                        <div className="container">
+                            <h3>Forgot your password?</h3>
+                            <label>Enter the email associated with your account and we'll send you instructions to reset your password</label>
+                            <div className="form-group">
+                                <label >Email address</label>
+                                <input type="email" onChange={(e) => this.setState({ email: e.target.value })} className="form-control" placeholder="Enter email" />
+                            </div>
+                            <div className=" btn-div">
+                                <label className="error">{this.state.errMessage}</label><br />
+                                <button type="submit" className="btn btn-primary" onClick={() => this.forgotPasswordHandle()}>Submit</button>
+                            </div>
+                        </div>
+                    </div></div></div>
+        )
+    }
+}
