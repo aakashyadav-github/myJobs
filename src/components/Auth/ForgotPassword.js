@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Link, Redirect } from 'react-router-dom';
 
 // Component to use the Forgot Password fucntionality
 export default class ForgotPassword extends Component {
@@ -45,7 +44,7 @@ export default class ForgotPassword extends Component {
                             </div>
                             <div className=" btn-div">
                                 <label className="error">{this.state.errMessage}</label><br />
-                                <button type="submit" className="btn btn-primary" onClick={() => this.forgotPasswordHandle()}>Submit</button>
+                                <button type="submit" className="btn btn-submit btn-primary" onClick={() => this.forgotPasswordHandle()}>Submit</button>
                             </div>
                         </div>
                     </div></div></div>

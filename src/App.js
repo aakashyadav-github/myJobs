@@ -3,10 +3,9 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Home from './components/Home'
 import Navbar from './components/Navbar'
-import {BrowserRouter, Route , Routes } from 'react-router-dom'
+import {BrowserRouter, Route  } from 'react-router-dom'
 import ForgotPassword from './components/Auth/ForgotPassword';
 import ResetPassword from './components/Auth/ResetPassword';
-import JobCard from './components/Jobs/JobCard';
 import { useState } from 'react'
 import { AuthContext } from "./components/Auth/context";
 import PrivateRoute from './privateRoute';

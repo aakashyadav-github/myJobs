@@ -42,7 +42,7 @@ export default class ResetPassword extends Component {
                             </div>
                             <div className="btn-div">
                                 <label className="error">{this.state.errMessage}</label><br />
-                                <button type="submit" className="btn btn-primary first-btn" onClick={() => this.resetHandle()}>Reset</button>
+                                <button type="submit" className="btn btn-submit btn-primary first-btn" onClick={() => this.resetHandle()}>Reset</button>
                             </div>
                         </div>
                     </div></div></div>

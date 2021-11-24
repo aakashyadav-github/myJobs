@@ -2,6 +2,7 @@ import React from 'react'
 import './Home.css'
 import { Link } from 'react-router-dom';
 import { useAuth } from "./Auth/context";
+import { useEffect } from 'react'
 
 const Navbar = (props) => {
   const { setAuthTokens } = useAuth();
@@ -9,6 +10,9 @@ const Navbar = (props) => {
     setAuthTokens(null);
     localStorage.clear()
   }
+  useEffect(() => {
+    console.log(window.location.pathname);
+  });
   return (
     <div className="row navbar-row">
       <div className="col-md-2 offset-md-1"><Link to={'/'} className="text-dec"><h2>MyJobs</h2></Link></div>
