@@ -3,7 +3,7 @@ import JobCard from './JobCard'
 import ReactPaginate from "react-paginate";
 import axios from 'axios'
 
-const PER_PAGE = 3;
+const PER_PAGE = 20;
 
 export default class Dashbaord extends Component {
     constructor(props) {
@@ -11,32 +11,48 @@ export default class Dashbaord extends Component {
         this.state = {
             jobs: [],
             currentPage: 0,
-            pageCount: 0,
+            pageCount: 1,
+            isLoaded: false,
         }
+    }
+    renderCards= (curPage) =>{
+        const headers = {
+            'Authorization': JSON.parse(localStorage.getItem('tokens'))
+        }
+        console.log("currPage"+curPage)
+        axios.get(`https://jobs-api.squareboat.info/api/v1/recruiters/jobs?page=${parseInt(curPage)+1}`, {headers: headers}).then(
+            res => {
+                console.log(res)
+                if(res.data.message==="No jobs posted"){
+                }else{
+                    this.setState({ jobs: (res.data.data.data.length > 0 ? ([...res.data.data.data]) : '' )});
+                   
+                }
+            })
     }
     componentDidMount() {
         const headers = {
             'Authorization': JSON.parse(localStorage.getItem('tokens'))
         }
-        axios.get("https://jobs-api.squareboat.info/api/v1/recruiters/jobs", {headers: headers}).then(
+        axios.get("https://jobs-api.squareboat.info/api/v1/recruiters/jobs?page="+1, {headers: headers}).then(
             res => {
-                console.log(res)
                 if(res.data.message==="No jobs posted"){
-                   
                 }else{
                     this.setState({ jobs: (res.data.data.data.length > 0 ? ([...res.data.data.data]) : '' )})
+                    let totalPages_pre = (res.data.data.metadata.count/res.data.data.metadata.limit);
+                    let totalPages = (res.data.data.metadata.count % res.data.data.metadata.limit) == 0 ? totalPages_pre : totalPages_pre + 1;
+                    console.log(parseInt(totalPages));
+                    this.setState({pageCount: parseInt(totalPages)})
                 }
             })
     }
-    // handlePageClick = (selectedPage) => {
-    //     this.setState({currentPage: selectedPage});
-    //   }
+    handlePageChange = (selectedObject) => {
+		this.setState({currentPage: selectedObject.selected},()=>{
+            this.renderCards(this.state.currentPage);
+        });
+		
+	};
     render() {
-        // const pageCount = Math.ceil(this.state.jobs.length / PER_PAGE);
-        // const offset = this.state.currentPage * PER_PAGE;
-        // const currentPageData = this.state.jobs
-        // .slice(this.offset, this.offset + PER_PAGE)
-        // .map(({ job }) => console.log(job));
     
         return (
             <div className="reactangle-dashboard">
@@ -49,19 +65,19 @@ export default class Dashbaord extends Component {
                                 return (<JobCard jobData={job} />)
                             }) : (<h2>Your posted jobs will show here</h2>)
                     }
-
                     </div>
-                    {/* <ReactPaginate
-                        previousLabel={"← Previous"}
-                        nextLabel={"Next →"}
-                        pageCount={pageCount}
-                        onPageChange={this.handlePageClick()}
-                        containerClassName={"pagination"}
-                        previousLinkClassName={"pagination__link"}
-                        nextLinkClassName={"pagination__link"}
-                        disabledClassName={"pagination__link--disabled"}
-                        activeClassName={"pagination__link--active"}
-                    /> */}
+                    <ReactPaginate 
+					pageCount={this.state.pageCount}
+					marginPagesDisplayed={3}
+                    onPageChange={this.handlePageChange}
+					containerClassName={'container-blue container-blue'}
+					previousLinkClassName={'page'}
+					breakClassName={'page'}
+					nextLinkClassName={'page'}
+					pageClassName={'page'}
+					disabledClassNae={'disabled'}
+					activeClassName={'active'}
+				/><br/>
                 </div>
             </div>
         )
