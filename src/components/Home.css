@@ -260,3 +260,13 @@ img{
 .error-input{
    border-color: red !important;
 }
+.container-blue{
+    color: #303F60;
+    display: flex;
+    place-content: center;
+    list-style-type:none;
+}
+.page{
+    padding-left: 10px;
+    text-decoration: none;
+}
